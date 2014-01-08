@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>9thStreet</title>   
+    <strong><link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"></strong>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1 class="logo">9th Street Loves you</h1>
+          <div class="nav"><a href="/logout">Logout</a></div>
+          <div class="nav"><a href="/">Contact</a></div>
+          <div class="nav"><a href="/index">Users</a></div>
+          <div class="nav"><a href="/">Home</a></div>
+        </ul>
+      </div>
+     </header>
+    <div class="container">
+      {% block content %}
+      {% endblock %}
+    </div>
+  </body>
+</html>

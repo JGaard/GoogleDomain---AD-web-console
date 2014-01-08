@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block content %}
+<html>
+<head>
+    <title>Welcome to Bullshit Hon</title>
+</head>
+
+<body>
+<p>You can do it! :)</p>
+
+{% for group in groups_list %}
+<p>{{group}}</p>
+{% endfor %}
+
+
+</body>
+</html>
+{% endblock %}

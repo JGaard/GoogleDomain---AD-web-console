@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+  <div class="jumbo">
+    <h2>Select Org:<h2>
+    <form action="{{ url_for('user_list_display') }}" method="post">
+      <dl>
+        <select name='org_domain'>
+            {% for org in domains_list: %}
+                <dt><option value="{{ domains_tag[org] }}">{{org}}</option></dt>
+            {% endfor %}
+        </select>
+        <dt><input type=submit value=Submit></dt>
+    </dl>
+    </form>
+  </div>
+{% endblock %}

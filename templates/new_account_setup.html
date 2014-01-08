@@ -1,0 +1,130 @@
+{% extends "layout.html" %}
+{% block content %}
+  <div class="jumbo">
+    <h2>Create New User Gmail Account<h2>
+        <h3>Please fill out this page to create a new user</h3>
+        
+          {% for message in form.username.errors %}
+            <div class="flash">{{ message }}</div>
+          {% endfor %}
+           
+          {% for message in form.givenname.errors %}
+            <div class="flash">{{ message }}</div>
+          {% endfor %}
+           
+          {% for message in form.familyname.errors %}
+            <div class="flash">{{ message }}</div>
+          {% endfor %}
+          
+          {% for message in form.username.errors %}
+            <div class="flash">{{ message }}</div>
+          {% endfor %}
+           
+          {% for message in form.password_alpha.errors %}
+            <div class="flash">{{ message }}</div>
+          {% endfor %}
+
+          {% for message in form.password_beta.errors %}
+            <div class="flash">{{ message }}</div>
+          {% endfor %}
+          
+          
+        <form action="{{ url_for('new_account_setup') }}" method=post>
+          
+          <select class='domain_options', name='org_domain', id='org_domain' onchange="refresh()">
+            {% for org in domains_list: %}
+              <option class=testyer value="{{ domains_tag[org] }}" text={{org}}>{{org}}</option>
+            {% endfor %}
+          </select>
+          
+          <input type=hidden id='org_name' name='org_name' value='CAAM'>
+            
+            {{ form.hidden_tag() }}
+ 
+            {{ form.givenname.label }}
+            {{ form.givenname(id='givenname', onkeyup="fill()") }}
+ 
+            {{ form.familyname.label }}
+            {{ form.familyname(id='familyname', onkeyup="fill()") }}
+            
+            {{ form.username.label }}
+            {{ form.username(id='username') }}
+            
+            {{ form.email.label }}
+            {{ form.email(id='email') }}
+ 
+            {{ form.password_alpha.label }}
+            {{ form.password_alpha }}
+            
+            {{ form.password_beta.label }}
+            {{ form.password_beta }}
+            
+            <br>
+            <a onclick ="javascript:ShowHide('HiddenADGroupsDiv')" href="javascript:;" class='ADcheckbox'>
+            <input type=checkbox name="ADcheckbox" id="ADcheckbox" value='off' onclick="setCheckbox()";> Create New Active Directory Account
+            </a>
+              <div id="HiddenADGroupsDiv" style="DISPLAY: none">
+                {% for org in ADorg_list.keys() %}
+                    <h4><strong>{{org}}</strong></h4>
+                  {% for groups in ADorg_list[org] %}
+                    <input type=checkbox name="{{groups[1]['name'][0]}}" id="{{groups[1]['name'][0]}}" value="{{groups}}" onclick="addToGroupList(this.value)">{{groups[1]['name'][0]}}<br>
+                  {% endfor %}
+                {% endfor %}
+              </div>
+              <input type=hidden name="hiddenGroupsList" id="hiddenGroupsList">
+            <br>
+            {{ form.submit }}
+        </form>
+   </div>
+  
+<script>
+  
+var groupsList = [];
+
+function fill() {
+  input = document.getElementById('givenname').value.charAt(0).toLowerCase() + document.getElementById('familyname').value.toLowerCase();
+  document.getElementById('username').value = input;
+  document.getElementById('email').value = document.getElementById('username').value + '@' + document.getElementById('org_domain').value;
+}
+function refresh() {
+  document.getElementById('email').value = document.getElementById('username').value + '@' + document.getElementById('org_domain').value;
+  document.getElementById('org_name').value = document.getElementById('org_domain').options[document.getElementById('org_domain').options.selectedIndex].text;
+
+}
+
+function setCheckbox() {
+  if (document.getElementById("ADcheckbox").value === "off") {
+        document.getElementById("ADcheckbox").value = "on";
+    }
+  else{
+      (document.getElementById("ADcheckbox").value = "off")
+    }
+    console.log(document.getElementById("ADcheckbox").value)
+}
+
+function ShowHide(divId) {
+  if(document.getElementById(divId).style.display == 'none'){
+    document.getElementById(divId).style.display='block';
+  }
+  else{
+    document.getElementById(divId).style.display = 'none';
+  }
+}
+
+function addToGroupList(id){
+  if (groupsList.indexOf(id) === -1) {
+    groupsList.push(id);
+    document.getElementById('hiddenGroupsList').value = groupsList;
+    console.log(groupsList);
+    console.log(document.getElementById("hiddenGroupsList" ).value);
+  }
+  else{
+    var index = groupsList.indexOf(id);
+    groupsList.splice(index, 1);
+    document.getElementById('hiddenGroupsList').value = groupsList;
+    console.log(document.getElementById("hiddenGroupsList" ).value);
+    
+  }
+}
+</script>
+{% endblock %}

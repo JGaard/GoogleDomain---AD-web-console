@@ -1,0 +1,118 @@
+{% extends "layout.html" %}
+{% block content %}
+<html>
+<meta charset="utf-8">
+<div class="jumbo">
+    <h3>Click on the right to add {{username}} to that group. Or click the on the left to remove {{username}} from that group.</h3>
+    <form action='/editgroups?user={{username}}&org_domain={{org_domain}}' method='post' name='groups_submit' id='groups_submit' >
+        <div class="editgroups_left_side">
+            <h3 float=right><strong>{{username}}'s Groups: </strong></h3>
+                {% for g in userGroups %}
+                    <div class="groups_form_field" id="{{g}}" value="{{g}}" onclick='onClick(jsUserGroups, jsDomainGroups, this.id, "user_chosen", "domain_chosen")'><h3>{{g}}</h3></div><br>
+                {% endfor %}
+        </div>
+        <input type='hidden' name="user_chosen" id="user_chosen" />
+        <input type='hidden' name='submit_state1' id='submit_state1' value=false />
+        <input type='hidden' name='submit_value1' id='submit_value1' />
+    
+        
+        <div class="editgroups_right_side">
+            <h3><strong>Groups in {{org_domain}}</strong></h3>
+            {% for dg in domainGroups %}
+                {% if dg in userGroups %}
+                    {{pass}}
+                {%else%}
+                    <div class="groups_form_field" id="{{dg}}" value='{{dg}}' onclick='onClick(jsDomainGroups, jsUserGroups, this.id, "domain_chosen", "user_chosen")'><h3>{{dg}}</h3></div><br>
+                {%endif%}
+            {% endfor %}
+        <input type='hidden' name="domain_chosen" id="domain_chosen" />
+        <input type='hidden' name='submit_state2' id='submit_state2' value=false />
+        <input type='hidden' name='submit_value2' id='submit_value2' />
+        </div>
+    </form>
+    <a href='/editusers?user={{username}}&org_domain={{org_domain}}'><h3>Go Back</h3></a>
+</div>
+
+<script charset="utf-8">
+
+jsUserGroups = _initUserGroups();
+jsDomainGroups = _initDomainGroups();
+setGroupValue('user_chosen', jsUserGroups);
+setGroupValue('domain_chosen', jsDomainGroups);
+
+function _initUserGroups() {
+    var jsUserGroups = [];
+    
+    {% for s in userGroups %}
+       var s = '{{s}}';
+       jsUserGroups.push(s);
+    {% endfor %}
+    
+    return jsUserGroups;
+}
+
+function _initDomainGroups() {
+    var jsDomainGroups = [];
+        
+    {% for s in domainGroups %}
+        var s ='{{s}}';
+        if (checkDuplicates(jsUserGroups, s)) {
+        }
+        else{
+        jsDomainGroups.push(s);
+        }
+    {% endfor %}
+    return jsDomainGroups;
+}
+
+function setGroupValue(htmlgroup, group) {
+        document.getElementById(htmlgroup).value = JSON.stringify(group);
+}
+
+function addtoGroup(recievingGroup, id) {
+    if (checkDuplicates(recievingGroup, id)) {
+        alert("group is already there");
+        }
+    else {
+    recievingGroup.push(id);
+    }
+}
+
+function checkDuplicates(array, obj) {
+    return (array.indexOf(obj) != -1);
+}
+
+function removeGroup(array, obj) {
+   var index = array.indexOf(obj);
+   array.splice(index, 1);
+}
+function setSubmitState(group) {
+    if (group === jsUserGroups) {
+        document.getElementById('submit_state2').value = true;
+    }
+    if (group === jsDomainGroups) {
+        document.getElementById('submit_state1').value = true;
+    }
+}
+
+function setSubmitValue(group, id) {
+    if (group === jsUserGroups) {
+        document.getElementById('submit_value2').value = id;
+    }
+    if (group === jsDomainGroups) {
+        document.getElementById('submit_value1').value = id;
+    }
+}
+function onClick(donatingGroup, recievingGroup, id, htmlDonatating, htmlRecieving) {
+    addtoGroup(recievingGroup,id);
+    removeGroup(donatingGroup, id); 
+    setGroupValue(htmlRecieving, recievingGroup);
+    setGroupValue(htmlDonatating, donatingGroup);
+    setSubmitState(recievingGroup)
+    setSubmitValue(recievingGroup, id)
+    document.forms['groups_submit'].submit()
+}
+
+</script>
+</html>
+{% endblock %}

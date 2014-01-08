@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+  <div class="jumbo">
+    <h2>List of users in {{org_domain}}</h2>
+      <div class="body">
+        {% for f in domain_users %}
+                <a href='/editusers?user={{f}}&org_domain={{org_domain}}'>
+                <div name="usersubmitbutton" class="button" onclick=this.parentNode.submit()>
+                    <strong>Name: </strong>{{given_names[loop.index0]}} {{family_names[loop.index0]}} <strong>Username: </strong>{{f}}
+                </div>
+                </a>
+        {% endfor %}
+      </div>
+  </div>
+
+{% endblock %}

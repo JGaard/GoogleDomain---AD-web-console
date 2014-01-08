@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block content %}
+<html>
+<div class="jumbo">
+    <div class="groups_left_side">
+        <h3 float=right><strong>Groups {{username}} Belongs to: </strong></h3>
+        {% for g in userGroups %}
+            {% if g == "" %}
+                {{pass}}
+            {%else%}
+            <div class="groups_placeHolder">
+                <div class="groups_form_field" id="{{g}}" value="{{g}}"><h3>{{g}}<br></h3>
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+        </div>
+
+    
+    <div class="groups_right_side">
+        <h3><strong>Other Groups in {{org_domain}}</strong></h3>
+        {% for dg in domainGroups %}
+            {% if dg in userGroups %}
+                {{pass}}
+            {%else%}
+            <div class="groups_placeHolder">
+                <div class="groups_form_field" id='{{dg}}' value='{{dg}}'><h3>{{dg}}<br></h3>
+                </div>
+            </div>
+            {%endif%}
+        {% endfor %}
+    </div>
+</div>
+<script>
+</script>
+
+
+</html>
+{% endblock %}

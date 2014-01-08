@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% block content %}
+  <div class="jumbo">
+    <h2>You succesfully logged in<h2>
+    {% if username %}
+      <h3> Welcome, {{username}}</h3>
+    {% endif %}
+  </div>
+{% endblock %}

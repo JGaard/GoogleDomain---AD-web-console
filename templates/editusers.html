@@ -1,0 +1,84 @@
+{% extends "layout.html" %} 
+{% block content %}
+<div class="jumbo">
+  <h2>Edit User</h2>
+  
+  <div class="right_side_nav">
+    <a href='/editgroups?user={{username}}&org_domain={{org_domain}}'>
+      <div class="secondary_form_field">
+        <h3>Change Group assignments</h3>
+      </div><br>
+    </a>
+    
+    <a href='/editforwarding?user={{username}}&org_domain={{org_domain}}'>
+    <div class="secondary_form_field">
+      <h3>Change Email Forwarding Assignments</h3>
+    </div>
+    </a>
+    <a href='/editfilters?user={{username}}&org_domain={{org_domain}}'>
+    <div class="secondary_form_field">
+      <h3>Change Email Filters</h3>
+    </div>
+  </div>
+  
+  <div class="form_field">
+    <form name='edit_user_submit_form' action='/editusers?user={{username}}&org_domain={{org_domain}}',  method="post">
+    <h3>Enter new details or leave blank to keep unchanged</h3>
+              
+              <div class="user_status_buttons">
+                <a href='/suspenduser?user={{username}}&org_domain={{org_domain}}' type=submit onclick="return confirm('Are you SURE you want to suspend {{username}}?')" class="DELbutton">Suspend User</a><br>
+                <a href='/deleteuser?user={{username}}&org_domain={{org_domain}}' type=submit onclick="return confirm('WARNING: Are you SURE you want to delete {{username}}? This action CAN NOT be undone and ALL the users emails and contacts will disappear.')" class="DELbutton">Delete User</a><br>
+                <a href='/unsuspenduser?user={{username}}&org_domain={{org_domain}}' type=submit onclick="return confirm('Are you SURE you want to unsuspend {{username}}?')" class="DELbutton">Unsuspend User</a><br>
+              </div>
+            
+            <dl>
+              <dt class="username"><strong>{{form.username.label}}</strong><br>
+              {{ form.username(placeholder=username, value=username) }}
+              
+              <dt class="firstname"><strong>{{form.givenname.label}}</strong><br>
+              {{ form.givenname(placeholder=givenname, value=givenname) }}
+              
+              
+              <dt class="lastname"><strong>{{form.familyname.label}}</strong><br>
+              {{ form.familyname(placeholder=familyname, value=familyname) }}</dt><br>
+            
+            
+            <br><a onclick ="javascript:ShowHide('HiddenPasswordDiv')" class="password_input" href="javascript:;"><h4>Change Password (Click Here)</a></h4></br>              
+              <div id="HiddenPasswordDiv" style="DISPLAY: none">
+                <div class="password_alpha"><strong>{{form.password_alpha.label}}</strong></div>
+                {{form.password_alpha(value="")}}<br>
+                
+                <div class="password_beta"><strong>{{form.password_beta.label}}</strong></div>
+                {{form.password_beta(value="")}}<br>
+              </div>
+              
+                  {% for message in get_flashed_messages() %}
+                    <div class="flash">{{ message }}</div>
+                  {% endfor %}
+              <br>
+                <br>
+              <dt class="nicknames"><strong>Nicknames</strong></dt><input type=checkbox name="clear_nicknames" class="nickname_checkbox" value ="clear" onclick="return confirm('This will delete ALL the nicknames for the user. Are you sure you want to continue?')">Clear All Nicknames?<br></dt>
+                <span><input type=text name=nickname1 placeholder="{{nicknames[0]}}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{nicknames[0]}}'" class="form_input_nickname"><input type=text name=nickname2 placeholder="{{nicknames[1]}}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{nicknames[1]}}'"class="form_input_nickname"><input type=text name=nickname3 placeholder="{{nicknames[2]}}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{nicknames[2]}}'" class="form_input_nickname"></span><br>
+                <span><input type=text name=nickname4 placeholder="{{nicknames[3]}}" onfocus="this.placeholder = ''"  onblur="this.placeholder = '{{nicknames[3]}}'"class="form_input_nickname"><input type=text name=nickname5 placeholder="{{nicknames[4]}}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{nicknames[4]}}'"class="form_input_nickname"><input type=text name=nickname6 placeholder="{{nicknames[5]}}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{nicknames[5]}}'"class="form_input_nickname"></span> 
+            </dl>
+          <input type=submit value=Submit>
+  </div>
+  </form>
+</div>
+
+<script language="JavaScript">
+function ShowHide(divId) {
+
+if(document.getElementById(divId).style.display == 'none')
+{
+document.getElementById(divId).style.display='block';
+}
+else
+{
+document.getElementById(divId).style.display = 'none';
+}
+}
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+{% extends "layout.html" %}
+{% block content %}
+  <div class="jumbo">
+    <h2>Here you go!</h2>
+      {% for line in f: %}
+        <p>{{line}}</p>
+      {% endfor %}
+   </div>
+{% endblock %}

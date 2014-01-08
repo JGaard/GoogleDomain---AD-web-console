@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block content %}
+<html>
+<div class="jumbo">
+    <form name="switch_status_submit" id="switch_status_submit" action='/editforwarding?user={{username}}&org_domain={{org_domain}}', method='post'>
+    <h3><strong>Forwarding to: </strong></h3>
+        {% if forwarding == "" %}
+            <h3>Nobody</h3>
+            {%else%}
+            <h3>{{forwarding}}</h3>
+        {% endif %}
+    
+    <div class='removeForwarder' onclick='removeForwarder()'>
+        <h3> X Remove Forwarder</h3>
+    </div>
+
+    <input type=hidden id="forwarderStatus" name="forwarderStatus" value="{{forwarding}}">
+    <h3><strong>Add New Forwarder: </strong></h3>
+        <div class="newforwarder">
+        {{ form.newforwarder }}<input type=submit value='Add'>
+        </div>
+        
+        <input type=hidden id='new_forward_data' value='{{form.newforwarder}}'>
+        
+        {% for message in get_flashed_messages() %}
+            <div class="flash">{{ message }}</div>
+        {% endfor %}
+    
+    </form>
+</div>
+
+<script language="JavaScript">
+
+function removeForwarder() {
+    var answer = confirm('Delete Forwarder?')
+    if (answer === true){
+        document.getElementById('forwarderStatus').value = "NONE";
+        document.forms['switch_status_submit'].submit();
+    }
+    
+}
+</script>
+</html>
+{% endblock %}

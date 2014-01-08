@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+{% block content %}
+<html>
+<div class="jumbo">
+<head>
+    <h2>Edit Filters</h2>
+</head>
+<h3>Create a filter. Email will be filtered if...</h3>
+<form action='/editfilters?user={{username}}&org_domain={{org_domain}}', id=filter_form_submit, name=filter_form_sumbit, method='post'>
+<div class="filterforms">
+{{form.from_address.label}}<br>
+{{form.from_address}}<br>
+
+{{form.to_address.label}}<br>
+{{form.to_address}}<br>
+
+{{form.subject.label}}<br>
+{{form.subject}}<br>
+
+{{form.has_the_word.label}}<br>
+{{form.has_the_word}}<br>
+
+{{form.does_not_have_the_word.label}}<br>
+{{form.does_not_have_the_word}}<br>
+
+{{form.label.label}}<br>
+{{form.label}}<br>
+
+{{form.has_attachments.label}}<br>
+{% for subfield in form.has_attachments %}
+    <tr>
+        <td>{{ subfield }}</td>
+        <td>{{ subfield.label }}</td>
+    </tr>
+{% endfor %}
+<br>
+{{form.mark_as_read.label}}<br>
+{% for subfield in form.mark_as_read %}
+    <tr>
+        <td>{{ subfield }}</td>
+        <td>{{ subfield.label }}</td>
+    </tr>
+{% endfor %}
+<br>
+{{form.archive.label}}<br>
+{% for subfield in form.archive %}
+    <tr>
+        <td>{{ subfield }}</td>
+        <td>{{ subfield.label }}</td>
+    </tr>
+{% endfor %}
+
+{{ form.submit }}
+</div>
+</form>
+<h3> If you want to make a filter that forwards to another address, <br>
+type in below the email of the address to be forwarded to.</h3>
+</div>
+</html>
+{% endblock %}

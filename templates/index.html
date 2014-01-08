@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block content %}
+  <div class="jumbo">
+    <h2>Select the Page</h2>
+    <div class="body">
+      <form action= "{{ url_for('new_account_setup') }}", method="get">
+        <div class="button" onclick=this.parentNode.submit()>Create New User</div>
+      </form>
+      <form action= "{{ url_for('userslist') }}", method="get">
+        <div class="button" onclick=this.parentNode.submit()>Edit Users</div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block content %}
+  <div class="jumbo">
+    <h2>Create New User Gmail Account<h2>
+        <h3>Please fill out this page to create a new user</h3>
+        <form action="{{ url_for('new_user_account_setup') }}" method=post class="add-entry custom">
+            <dl>
+                <label for="customDropdown">Organizations</label>
+                <select name=org style="display:none;" id="customDropdown">
+                    {% for org in domains_list %}
+                        <option id="{{ org.name }}" name="{{ org.name }}" SELECTED>{{ org.name }}</option>
+                <dt>First Name:
+                <dd><input type=text name=first_name>
+                <dt>Last Name:
+                <dd><input type=text name=last_name>
+                <dt>Username (ex. gwashington):
+                <dd><input type=text name=username>
+                <dt>User Password:
+                <dd><input type=password name=userpassword
+                <dt>Confirm Password:
+                <dd><input type=password name=confirm_password>
+                <dd><input type=submit value=Submit>
+              </p>
+            </dl>
+        </form>
+   </div>
+{% endblock %}
